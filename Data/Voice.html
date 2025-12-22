@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Jarvis Speech Recognition</title>
+</head>
+<body>
+
+<button id="start">Start</button>
+<button id="end">Stop</button>
+<p id="output"></p>
+
+<script>
+let recognition;
+const output = document.getElementById("output");
+
+document.getElementById("start").onclick = () => {
+    recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "en";
+    recognition.continuous = true;
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[event.results.length - 1][0].transcript;
+        output.textContent += transcript;
+    };
+
+    recognition.start();
+};
+
+document.getElementById("end").onclick = () => {
+    if (recognition) {
+        recognition.stop();
+    }
+};
+</script>
+
+</body>
+</html>
